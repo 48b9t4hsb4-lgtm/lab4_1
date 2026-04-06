@@ -50,3 +50,31 @@ public class Bud
         return Petals.First().Color;
     }
 }
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Створення об'єктів:");
+
+        List<Petal> petals = new List<Petal>
+            {
+                new Petal("Червоний"),
+                new Petal("Червоний"),
+                new Petal("Червоний")
+            };
+
+        Bud bud = new Bud(petals); //створює бутон з пелюсток
+
+        Flower myFlower = new Flower("Тюльпан", bud); //створюю квітку назва плюс передаю бутон
+
+        Console.WriteLine("\nВиконання завдання:");
+        myFlower.PrintBudColor();
+        myFlower.Blossom();
+        myFlower.Wither();
+
+        Console.WriteLine("\nТестування основних методів:");
+        Console.WriteLine(myFlower.ToString());
+        Console.WriteLine($"Хешкод квітки: {myFlower.GetHashCode()}");
+        Console.ReadLine();
+    }
+}
