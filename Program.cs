@@ -23,6 +23,26 @@ public class Flower
         Console.WriteLine($"Викликано метод PrintBudColor");
         Console.WriteLine($"Колір бутона квітки '{Name}': {FlowerBud.GetColor()}");
     }
+    public override bool Equals(object obj)
+    {
+        Console.WriteLine("Викликано метод Equals");
+        if (obj == null || GetType() != obj.GetType()) return false;
+        Flower other = (Flower)obj;
+        return Name == other.Name && FlowerBud.Equals(other.FlowerBud);
+    }
+
+    public override int GetHashCode()
+    {
+        Console.WriteLine("Викликано метод GetHashCode");
+        return HashCode.Combine(Name, FlowerBud);
+    }
+
+    public override string ToString()
+    {
+        Console.WriteLine("Викликано метод ToString");
+        return $"Квітка: {Name}, містить {FlowerBud.ToString()}";
+    }
+
 }
 public class Petal
 {
@@ -33,6 +53,26 @@ public class Petal
         Console.WriteLine("Викликано конструктор Petal");
         Color = color;
     }
+    public override bool Equals(object obj)
+    {
+        Console.WriteLine("Викликано метод Equals");
+        if (obj == null || GetType() != obj.GetType()) return false;
+        Petal other = (Petal)obj;
+        return Color == other.Color;
+    }
+
+    public override int GetHashCode()
+    {
+        Console.WriteLine("Викликано метод GetHashCode");
+        return Color?.GetHashCode() ?? 0;
+    }
+
+    public override string ToString()
+    {
+        Console.WriteLine("Викликано метод ToString");
+        return $"Пелюсток ({Color})";
+    }
+
 }
 public class Bud
 {
@@ -49,6 +89,27 @@ public class Bud
         if (Petals.Count == 0) return "Невідомий";
         return Petals.First().Color;
     }
+    public override bool Equals(object obj)
+    {
+        Console.WriteLine("Викликано метод Equals");
+        if (obj == null || GetType() != obj.GetType()) return false;
+        Bud other = (Bud)obj;
+        // Спрощене порівняння: бутони однакові, якщо в них однакова кількість пелюсток і однаковий колір
+        return Petals.Count == other.Petals.Count && GetColor() == other.GetColor();
+    }
+
+    public override int GetHashCode()
+    {
+        Console.WriteLine("Викликано метод GetHashCode");
+        return HashCode.Combine(Petals.Count, GetColor());
+    }
+
+    public override string ToString()
+    {
+        Console.WriteLine("Викликано метод ToString");
+        return $"Бутон (Колір: {GetColor()}, Кількість пелюсток: {Petals.Count})";
+    }
+
 }
 class Program
 {
@@ -75,6 +136,10 @@ class Program
         Console.WriteLine("\nТестування основних методів:");
         Console.WriteLine(myFlower.ToString());
         Console.WriteLine($"Хешкод квітки: {myFlower.GetHashCode()}");
+        //перевірка на Equals
+        Flower sameFlower = new Flower("Тюльпан", new Bud(petals));
+        Console.WriteLine($"Чи однакові дві квітки? -> {myFlower.Equals(sameFlower)}");
+
         Console.ReadLine();
     }
 }
